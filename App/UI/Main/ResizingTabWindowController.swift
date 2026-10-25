@@ -37,8 +37,16 @@ class ResizingTabWindowController: NSWindowController, NSWindowDelegate {
     /// Assign our custom modCaptureFieldEditor to modCaptureTextField instances
     
     var modCaptureFieldEditor: ModCaptureFieldEditor? = nil
+    var mouseButtonCaptureFieldEditor: ModCaptureFieldEditor? = nil
     
     func windowWillReturnFieldEditor(_ sender: NSWindow, to client: Any?) -> Any? {
+        
+        if client is MouseButtonCaptureTextField {
+            if mouseButtonCaptureFieldEditor == nil {
+                mouseButtonCaptureFieldEditor = ModCaptureFieldEditor.init(frame: (client as! MouseButtonCaptureTextField).frame)
+            }
+            return mouseButtonCaptureFieldEditor
+        }
         
         guard let client = client as? ModCaptureTextField else {
             return nil

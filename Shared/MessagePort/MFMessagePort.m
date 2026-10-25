@@ -46,6 +46,7 @@
 #import "Mac_Mouse_Fix_Helper-Swift.h"
 #import "AccessibilityCheck.h"
 #import "KeyCaptureMode.h"
+#import "MouseModifiers.h"
 #endif
 
 /// This class is used to communicate between the MainApp and the Helper.
@@ -253,6 +254,14 @@ static CFDataRef _Nullable didReceiveMessage(CFMessagePortRef port, SInt32 messa
         xxx(@"checkAccessibility") {
             BOOL isTrusted = [AccessibilityCheck checkAccessibilityAndUpdateSystemSettings];
             response = @(isTrusted);
+        }
+        xxx(@"enableMouseModifierCapture") {
+            [MouseModifiers setCaptureMode:YES];
+            response = @(YES);
+        }
+        xxx(@"disableMouseModifierCapture") {
+            [MouseModifiers setCaptureMode:NO];
+            response = @(YES);
         }
         xxx(@"enableAddMode") {
             BOOL success = [Remap enableAddMode];

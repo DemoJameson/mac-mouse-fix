@@ -6642,6 +6642,96 @@
         }
       }
     },
+    "mMG-Lb-c01.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Mouse Modifiers:\"; ObjectID = \"mMG-Lb-001\"; Note = \"Scrolling > Mouse Modifiers Label\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mouse Modifiers:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "鼠标修饰键："
+          }
+        }
+      }
+    },
+    "mMG-Tc-001.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Scroll Horizontally\"; ObjectID = \"mMG-Tl-001\"; Note = \"Scrolling > Mouse Modifiers > Scroll Horizontally Label\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Scroll Horizontally"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "水平滚动"
+          }
+        }
+      }
+    },
+    "mMG-Tc-002.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Zoom In or Out\"; ObjectID = \"mMG-Tl-002\"; Note = \"Scrolling > Mouse Modifiers > Zoom In or Out Label\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Zoom In or Out"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "放大或缩小"
+          }
+        }
+      }
+    },
+    "mMG-Tc-003.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Scroll Swiftly\"; ObjectID = \"mMG-Tl-003\"; Note = \"Scrolling > Mouse Modifiers > Scroll Swiftly Label\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Scroll Swiftly"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "快速滚动"
+          }
+        }
+      }
+    },
+    "mMG-Tc-004.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Scroll Precisely\"; ObjectID = \"mMG-Tl-004\"; Note = \"Scrolling > Mouse Modifiers > Scroll Precisely Label\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Scroll Precisely"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "精准滚动"
+          }
+        }
+      }
+    },
     "mWQ-i7-vza.ibShadowedToolTip" : {
       "comment" : "Class = \"NSImageView\"; ibShadowedToolTip = \"Hold Command (⌘) and Shift (⇧), then click this icon to reveal Mac Mouse Fix's configuration file in Finder\"; ObjectID = \"mWQ-i7-vza\"; Note = \"About > Mac Mouse Fix Icon > Tooltip\";",
       "extractionState" : "extracted_with_value",

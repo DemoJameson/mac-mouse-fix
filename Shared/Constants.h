@@ -134,6 +134,9 @@ typedef NSString*                                                       MFString
 // Keyboard
 #define kMFModificationPreconditionKeyKeyboard                          @"keyboardModifiers"
 // (^ Use NSModifierFlags (CGEventFlags would probably work, too) as values)
+// Mouse buttons used as scroll modifiers
+#define kMFModificationPreconditionKeyMouseButtons                      @"mouseButtons"
+// (^ Use an NSNumber with an MFMouseButtonNumber value. 0/absent means none.)
 
 // Modified drag
 

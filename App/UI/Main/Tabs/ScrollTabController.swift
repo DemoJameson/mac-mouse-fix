@@ -24,6 +24,10 @@ class ScrollTabController: NSViewController {
     var zoomMod = ConfigValue<UInt>(configPath: "Scroll.modifiers.zoom")
     var swiftMod = ConfigValue<UInt>(configPath: "Scroll.modifiers.swift")
     var preciseMod = ConfigValue<UInt>(configPath: "Scroll.modifiers.precise")
+    var mouseHorizontalMod = ConfigValue<UInt>(configPath: "Scroll.buttonModifiers.horizontal")
+    var mouseZoomMod = ConfigValue<UInt>(configPath: "Scroll.buttonModifiers.zoom")
+    var mouseSwiftMod = ConfigValue<UInt>(configPath: "Scroll.buttonModifiers.swift")
+    var mousePreciseMod = ConfigValue<UInt>(configPath: "Scroll.buttonModifiers.precise")
     
     /// Also see `ReactiveFlags` is this doesn't work
     
@@ -55,6 +59,12 @@ class ScrollTabController: NSViewController {
     @IBOutlet weak var swiftModField: ModCaptureTextField!
     @IBOutlet weak var preciseModField: ModCaptureTextField!
     @IBOutlet weak var restoreDefaultModsButton: NSButton!
+    
+    @IBOutlet weak var restoreDefaultMouseModsButton: NSButton!
+    @IBOutlet weak var mouseHorizontalModField: MouseButtonCaptureTextField!
+    @IBOutlet weak var mouseZoomModField: MouseButtonCaptureTextField!
+    @IBOutlet weak var mouseSwiftModField: MouseButtonCaptureTextField!
+    @IBOutlet weak var mousePreciseModField: MouseButtonCaptureTextField!
     
     /// Did appear
     
@@ -229,7 +239,8 @@ class ScrollTabController: NSViewController {
         ///     - Once we shipped it, we should probably update the Captured Buttons Guide: https://redirect.macmousefix.com/?target=mmf-captured-buttons-guide - or create a new guide.
         
         let modProducer = SignalProducer.combineLatest(horizontalMod.producer, zoomMod.producer, swiftMod.producer, preciseMod.producer) /// We could reuse this down in the Keyboard modifier section, but currently, we're not
-        let captureProducer = SignalProducer.combineLatest(smooth.producer, reverseDirection.producer, scrollSpeed.producer, modProducer).combinePrevious()
+        let mouseModProducer = SignalProducer.combineLatest(mouseHorizontalMod.producer, mouseZoomMod.producer, mouseSwiftMod.producer, mousePreciseMod.producer)
+        let captureProducer = SignalProducer.combineLatest(smooth.producer, reverseDirection.producer, scrollSpeed.producer, modProducer, mouseModProducer).combinePrevious()
             
         captureProducer.startWithValues { (previous, current) in
             
@@ -237,14 +248,16 @@ class ScrollTabController: NSViewController {
             
             if let toastedWindow = NSApp.mainWindow {
                 
-                let (smooth0, reverse0, speed0, mods0) = previous
-                let (smooth1, reverse1, speed1, mods1) = current
+                let (smooth0, reverse0, speed0, mods0, mouseMods0) = previous
+                let (smooth1, reverse1, speed1, mods1, mouseMods1) = current
                 
                 let (horizontal0, zoom0, swift0, precise0) = mods0
                 let (horizontal1, zoom1, swift1, precise1) = mods1
+                let (mh0, mz0, ms0, mp0) = mouseMods0
+                let (mh1, mz1, ms1, mp1) = mouseMods1
                 
-                let wasCaptured = smooth0 != "off" || reverse0 || speed0 != "system" || horizontal0 != 0 || zoom0 != 0 || swift0 != 0 || precise0 != 0 /// Including the modifiers here is a little 'semantically incorrect' but we still do it. See `getCapturedButtonsAndExcludeButtonsThatAreOnlyCapturedByModifier:` [Sep 2025]
-                let isCaptured  = smooth1 != "off" || reverse1 || speed1 != "system" || horizontal1 != 0 || zoom1 != 0 || swift1 != 0 || precise1 != 0
+                let wasCaptured = smooth0 != "off" || reverse0 || speed0 != "system" || horizontal0 != 0 || zoom0 != 0 || swift0 != 0 || precise0 != 0 || mh0 != 0 || mz0 != 0 || ms0 != 0 || mp0 != 0 /// Including the modifiers here is a little 'semantically incorrect' but we still do it. See `getCapturedButtonsAndExcludeButtonsThatAreOnlyCapturedByModifier:` [Sep 2025]
+                let isCaptured  = smooth1 != "off" || reverse1 || speed1 != "system" || horizontal1 != 0 || zoom1 != 0 || swift1 != 0 || precise1 != 0 || mh1 != 0 || mz1 != 0 || ms1 != 0 || mp1 != 0
                     
                 DDLogDebug("ScrollTab - smooth: \(smooth0)->\(smooth1) reverse: \(reverse0)->\(reverse1) speed: \(speed0)->\(speed1) horizontal: \(horizontal0)->\(horizontal1) zoom: \(zoom0)->\(zoom1) swift: \(swift0)->\(swift1) precise: \(precise0)->\(precise1)")
                 
@@ -255,6 +268,30 @@ class ScrollTabController: NSViewController {
                     CaptureToasts.showScrollWheelCaptureToast(true)
                 }
             }
+        }
+        
+        /// Mouse modifiers
+        ///     Same binding style as the keyboard modifiers above: capture field <-> config value.
+        
+        mouseHorizontalModField <~ mouseHorizontalMod.producer.map({ $0 })
+        mouseHorizontalMod <~ mouseHorizontalModField.signal.map({ $0 })
+        mouseZoomModField <~ mouseZoomMod.producer.map({ $0 })
+        mouseZoomMod <~ mouseZoomModField.signal.map({ $0 })
+        mouseSwiftModField <~ mouseSwiftMod.producer.map({ $0 })
+        mouseSwiftMod <~ mouseSwiftModField.signal.map({ $0 })
+        mousePreciseModField <~ mousePreciseMod.producer.map({ $0 })
+        mousePreciseMod <~ mousePreciseModField.signal.map({ $0 })
+        
+        /// Conflict hints: a button that's also used for Click and Scroll on the Buttons tab.
+        let allMouseMods = SignalProducer<(String, UInt), Never>.merge(
+            mouseHorizontalMod.producer.map { ("mh", $0) },
+            mouseZoomMod.producer.map { ("mz", $0) },
+            mouseSwiftMod.producer.map { ("ms", $0) },
+            mousePreciseMod.producer.map { ("mp", $0) }
+        )
+        allMouseMods.startWithValues { (_, button) in
+            guard button != 0, ScrollTabController.buttonIsUsedInActionTable(button) else { return }
+            Toasts.showSimpleToast(name: "k-mouse-modifier-conflict-toast")
         }
         
         /// Keyboard modifiers
@@ -275,11 +312,23 @@ class ScrollTabController: NSViewController {
         let defaultS: Mods = [.control]
         let defaultP: Mods = [.option]
         
+        /// Keep these in sync with `default_config` – `Scroll.buttonModifiers`
+        let defaultMouseH: UInt = UInt(kMFMouseButtonNumberRight.rawValue)
+        
+        /// Keyboard section restores only the keyboard modifiers.
         restoreDefaultModsButton.reactive.states.observeValues { state in
             self.horizontalMod.set(defaultH.rawValue)
             self.zoomMod.set(defaultZ.rawValue)
             self.swiftMod.set(defaultS.rawValue)
             self.preciseMod.set(defaultP.rawValue)
+        }
+        
+        /// Mouse section restores only the mouse modifiers.
+        restoreDefaultMouseModsButton.reactive.states.observeValues { state in
+            self.mouseHorizontalMod.set(defaultMouseH)
+            self.mouseZoomMod.set(0)
+            self.mouseSwiftMod.set(0)
+            self.mousePreciseMod.set(0)
         }
         
         /// v Using Signal.combineLatest here might be easier.
@@ -321,7 +370,70 @@ class ScrollTabController: NSViewController {
                 Animate.with(CABasicAnimation(name: .default, duration: 0.1)) {
                     self.restoreDefaultModsButton.reactiveAnimator().alphaValue.set(restoreDefaultsIsEnabled ? 1.0 : 0.0)
                 }
+                
+                /// Mouse restore button visibility – independent from the keyboard one.
+                var restoreMouseDefaultsIsEnabled = true
+                if self.mouseHorizontalMod.get() == defaultMouseH
+                    && self.mouseZoomMod.get() == 0
+                    && self.mouseSwiftMod.get() == 0
+                    && self.mousePreciseMod.get() == 0 {
+                    
+                    restoreMouseDefaultsIsEnabled = false
+                }
+                Animate.with(CABasicAnimation(name: .default, duration: 0.1)) {
+                    self.restoreDefaultMouseModsButton.reactiveAnimator().alphaValue.set(restoreMouseDefaultsIsEnabled ? 1.0 : 0.0)
+                }
 //            }
         }
+        
+        /// Mouse modifier mutual exclusion
+        ///     One physical button can only drive one scroll modification.
+        
+        let allMouseButtons = SignalProducer<(String, UInt), Never>.merge(
+            mouseHorizontalMod.producer.map { ("mh", $0) },
+            mouseZoomMod.producer.map { ("mz", $0) },
+            mouseSwiftMod.producer.map { ("ms", $0) },
+            mousePreciseMod.producer.map { ("mp", $0) }
+        )
+        allMouseButtons.startWithValues { (src, button) in
+            
+            guard button != 0 else { return }
+            
+            if self.mouseHorizontalMod.get() == button && src != "mh" { self.mouseHorizontalMod.set(0) }
+            if self.mouseZoomMod.get() == button && src != "mz" { self.mouseZoomMod.set(0) }
+            if self.mouseSwiftMod.get() == button && src != "ms" { self.mouseSwiftMod.set(0) }
+            if self.mousePreciseMod.get() == button && src != "mp" { self.mousePreciseMod.set(0) }
+        }
+    }
+    
+    // MARK: - Mouse modifiers
+    
+    /// Whether the Buttons tab has any row (Click, Hold, Click and Drag, Click and Scroll) that is
+    /// triggered by `button`.
+    ///     While `button` is a mouse modifier the helper swallows it end-to-end and replays the click
+    ///     below the button pipeline, so every one of those actions stops working. We warn about that.
+    static func buttonIsUsedInActionTable(_ button: UInt) -> Bool {
+        
+        guard let dataModel = MainAppState.shared.remapTableController?.dataModel as NSArray? else { return false }
+        
+        for case let row as NSDictionary in dataModel {
+            
+            /// Button used as a modifier for a Drag / Scroll row
+            if let precond = row[kMFRemapsKeyModificationPrecondition] as? NSDictionary,
+               let buttonMods = precond[kMFModificationPreconditionKeyButtons] as? NSArray {
+                for case let mod as NSDictionary in buttonMods {
+                    if (mod[kMFButtonModificationPreconditionKeyButtonNumber] as? NSNumber)?.uintValue == button {
+                        return true
+                    }
+                }
+            }
+            
+            /// Button used as the trigger of a Click / Hold row
+            if let trigger = row[kMFRemapsKeyTrigger] as? NSDictionary,
+               (trigger[kMFButtonTriggerKeyButtonNumber] as? NSNumber)?.uintValue == button {
+                return true
+            }
+        }
+        return false
     }
 }

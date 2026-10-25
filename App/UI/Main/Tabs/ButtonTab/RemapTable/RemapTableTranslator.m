@@ -981,6 +981,15 @@ static NSString *effectNameForRowDict(NSDictionary * _Nonnull rowDict) {
     NSNumber *flags = rowDict[kMFRemapsKeyModificationPrecondition][kMFModificationPreconditionKeyKeyboard];
     NSString *kbMod = [UIStrings getKeyboardModifierString:flags.unsignedIntegerValue];
     
+    /// Mouse-button modifiers show up as "Right Button + " in front of the trigger.
+    NSNumber *mouseButton = rowDict[kMFRemapsKeyModificationPrecondition][kMFModificationPreconditionKeyMouseButtons];
+    if (mouseButton.unsignedIntegerValue >= kMFMouseButtonNumberRight) {
+        NSString *buttonStr = [UIStrings getButtonString:mouseButton.unsignedIntValue
+                                                 context:kMFButtonStringUsageContextActionTableTriggerSubstring];
+        NSString *mouseMod = stringf(MFLocalizedString(@"trigger.substring.mouse-modifier.1", @""), buttonStr);
+        kbMod = [@[mouseMod, kbMod] componentsJoinedByString:@""];
+    }
+    
     ///
     /// Post processing on the substrings
     ///

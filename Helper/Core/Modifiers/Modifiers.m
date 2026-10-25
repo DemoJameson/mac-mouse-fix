@@ -18,6 +18,7 @@
 #import "ModificationUtility.h"
 #import <os/signpost.h>
 #import "Mac_Mouse_Fix_Helper-Swift.h"
+#import "MouseModifiers.h"
 
 @implementation Modifiers
 
@@ -47,6 +48,15 @@
 #pragma mark - Storage
 
 static NSMutableDictionary *_modifiers;
+
+/// Module state
+static MFModifierPriority _kbModPriority;
+static MFModifierPriority _btnModPriority;
+static CFMachPortRef _kbModEventTap;
+static uint64_t _modifierGeneration = 0;
+
+/// Forward declarations (defined further down)
+static void updateKBMods(CGEventRef _Nullable event);
 
 #pragma mark - Load
 
@@ -85,10 +95,6 @@ static NSMutableDictionary *_modifiers;
 }
 
 #pragma mark Toggle listening
-
-static MFModifierPriority _kbModPriority;
-static MFModifierPriority _btnModPriority;
-static CFMachPortRef _kbModEventTap;
 
 + (void)setKeyboardModifierPriority:(MFModifierPriority)priority {
     
@@ -202,6 +208,34 @@ static CFMachPortRef _kbModEventTap;
     Buttons.useButtonModifiers = _btnModPriority != kMFModifierPriorityUnused;
 }
 
++ (void)mouseModsChangedTo:(NSNumber *)button {
+    
+    /// Never clear the mouse modifier while the physical button is still held.
+    /// A spurious clear makes `SwitchMaster` believe scrolling is no longer modified, which turns the
+    /// scroll tap off and lets the next tick scroll vertically natively instead of horizontally.
+    if (button.unsignedIntegerValue == 0 && [MouseModifiers heldButton].unsignedIntegerValue != 0) {
+        return;
+    }
+    
+    /// Store
+    NSUInteger value = button.unsignedIntegerValue;
+    NSNumber *old = _modifiers[kMFModificationPreconditionKeyMouseButtons];
+    if (value == 0) {
+        if (old == nil) return;
+        [_modifiers removeObjectForKey:kMFModificationPreconditionKeyMouseButtons];
+    } else {
+        if ([old isEqualToNumber:@(value)]) return;
+        _modifiers[kMFModificationPreconditionKeyMouseButtons] = @(value);
+    }
+    _modifierGeneration += 1;
+    
+    /// Notify. Mouse modifiers can toggle the scroll tap, so we always want the SwitchMaster to react.
+    if (_kbModPriority == kMFModifierPriorityPassiveUse) {
+        updateKBMods(nil);
+    }
+    [SwitchMaster.shared modifiersChangedWithModifiers:_modifiers];
+}
+
 #pragma mark Inspect State
 /// At the time of writing we just need this for debugging
 
@@ -211,6 +245,10 @@ static CFMachPortRef _kbModEventTap;
 
 + (MFModifierPriority)btnModPriority {
     return _btnModPriority;
+}
+
++ (uint64_t)modifierGeneration {
+    return _modifierGeneration;
 }
 
 #pragma mark Handle modifier change
@@ -253,6 +291,8 @@ CGEventRef _Nullable kbModsChanged(CGEventTapProxy proxy, CGEventType type, CGEv
             _modifiers[kMFModificationPreconditionKeyKeyboard] = newFlagsNS;
         }
         
+        _modifierGeneration += 1;
+        
         /// Notify
 //        [ReactiveModifiers.shared handleModifiersDidChangeTo:_modifiers];
         [SwitchMaster.shared modifiersChangedWithModifiers:_modifiers];
@@ -279,6 +319,7 @@ CGEventRef _Nullable kbModsChanged(CGEventTapProxy proxy, CGEventType type, CGEv
     } else {
         _modifiers[kMFModificationPreconditionKeyButtons] = [newModifiers copy]; /// I think we only copy here so the newModifers != oldModifiers assert works
     }
+    _modifierGeneration += 1;
     
     if (_btnModPriority == kMFModifierPriorityActiveListen) {
         
@@ -350,12 +391,32 @@ static NSUInteger flagsFromEvent(CGEventRef _Nullable event) {
         updateKBMods(event);
     }
     
+    /// Self-healing for mouse modifiers on scroll events.
+    /// The mouse-modifier tap normally keeps this in sync, but the state can be momentarily missing
+    /// (tap timeout, ordering with other taps, a swallowed event). If a scroll arrives while a
+    /// configured button is physically held, re-assert it – otherwise the tick would be interpreted
+    /// on the wrong axis (vertical instead of horizontal).
+    if (event != NULL && CGEventGetType(event) == kCGEventScrollWheel) {
+        NSNumber *held = [MouseModifiers heldButton];
+        NSNumber *current = _modifiers[kMFModificationPreconditionKeyMouseButtons];
+        if (held.unsignedIntegerValue != 0 && ![held isEqualToNumber:(current ?: @(0))]) {
+            _modifiers[kMFModificationPreconditionKeyMouseButtons] = held;
+            _modifierGeneration += 1;
+        }
+    }
+    
     return _modifiers;
 }
 
 #pragma mark Handle mod usage
 
 + (void)handleModificationHasBeenUsed {
+    
+    /// Only touch the mouse-modifier bookkeeping when a mouse button actually is the active modifier.
+    /// The tap owns these buttons end-to-end, so this is all that's needed to suppress the replayed click.
+    if (_modifiers[kMFModificationPreconditionKeyMouseButtons] != nil) {
+        [MouseModifiers modificationHasBeenUsed];
+    }
     
     /// Notify active *modifiers* that they have had an effect
     for (NSDictionary *buttonMods in _modifiers[kMFModificationPreconditionKeyButtons]) {

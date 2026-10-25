@@ -163,6 +163,8 @@
 		4F909D3B28A0C3D2009349A2 /* ModCaptureDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F909D1C28A0C3D2009349A2 /* ModCaptureDeleteButton.swift */; };
 		4F909D3C28A0C3D2009349A2 /* ModCaptureFieldEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F909D1D28A0C3D2009349A2 /* ModCaptureFieldEditor.swift */; };
 		4F909D3D28A0C3D2009349A2 /* ModCaptureTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F909D1E28A0C3D2009349A2 /* ModCaptureTextField.swift */; };
+		4FF9A0032E00000000000003 /* MouseButtonCaptureTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF9A0022E00000000000003 /* MouseButtonCaptureTextField.swift */; };
+		4FF9A0052E00000000000005 /* MouseButtonCaptureDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF9A0042E00000000000005 /* MouseButtonCaptureDeleteButton.swift */; };
 		4F909D3E28A0C3D2009349A2 /* SensitivityDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F909D1F28A0C3D2009349A2 /* SensitivityDisplay.swift */; };
 		4F909D4128A0C412009349A2 /* SwiftUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F909D4028A0C411009349A2 /* SwiftUITest.swift */; };
 		4F909D4528A0C4C2009349A2 /* NSArray+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F909D4328A0C4C2009349A2 /* NSArray+Extensions.swift */; };
@@ -370,6 +372,7 @@
 		4FF6668225F2C93A00689B77 /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF6660E25F2C93A00689B77 /* Config.m */; };
 		4FF6668325F2C93A00689B77 /* HelperAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FF6661025F2C93A00689B77 /* HelperAssets.xcassets */; };
 		4FF6668525F2C93A00689B77 /* Modifiers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF6661725F2C93A00689B77 /* Modifiers.m */; };
+		4FF9A0012E00000000000001 /* MouseModifiers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF9A0002E00000000000001 /* MouseModifiers.m */; };
 		4FF6668825F2C93A00689B77 /* ButtonInputReceiver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF6661E25F2C93A00689B77 /* ButtonInputReceiver.m */; };
 		4FF6668925F2C93A00689B77 /* Scroll.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF6662125F2C93A00689B77 /* Scroll.m */; };
 		4FF6668B25F2C93A00689B77 /* CubicUnitBezier.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF6662425F2C93A00689B77 /* CubicUnitBezier.m */; };
@@ -843,6 +846,8 @@
 		4F909D1C28A0C3D2009349A2 /* ModCaptureDeleteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModCaptureDeleteButton.swift; sourceTree = "<group>"; };
 		4F909D1D28A0C3D2009349A2 /* ModCaptureFieldEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModCaptureFieldEditor.swift; sourceTree = "<group>"; };
 		4F909D1E28A0C3D2009349A2 /* ModCaptureTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModCaptureTextField.swift; sourceTree = "<group>"; };
+		4FF9A0022E00000000000003 /* MouseButtonCaptureTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MouseButtonCaptureTextField.swift; sourceTree = "<group>"; };
+		4FF9A0042E00000000000005 /* MouseButtonCaptureDeleteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MouseButtonCaptureDeleteButton.swift; sourceTree = "<group>"; };
 		4F909D1F28A0C3D2009349A2 /* SensitivityDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensitivityDisplay.swift; sourceTree = "<group>"; };
 		4F909D4028A0C411009349A2 /* SwiftUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftUITest.swift; sourceTree = "<group>"; };
 		4F909D4328A0C4C2009349A2 /* NSArray+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSArray+Extensions.swift"; sourceTree = "<group>"; };
@@ -1110,6 +1115,8 @@
 		4FF6661025F2C93A00689B77 /* HelperAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = HelperAssets.xcassets; sourceTree = "<group>"; };
 		4FF6661625F2C93A00689B77 /* Modifiers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Modifiers.h; sourceTree = "<group>"; };
 		4FF6661725F2C93A00689B77 /* Modifiers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Modifiers.m; sourceTree = "<group>"; };
+		4FF9A0002E00000000000000 /* MouseModifiers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MouseModifiers.h; sourceTree = "<group>"; };
+		4FF9A0002E00000000000001 /* MouseModifiers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MouseModifiers.m; sourceTree = "<group>"; };
 		4FF6661925F2C93A00689B77 /* ButtonTriggerGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonTriggerGenerator.m; sourceTree = "<group>"; };
 		4FF6661A25F2C93A00689B77 /* ButtonTriggerHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonTriggerHandler.m; sourceTree = "<group>"; };
 		4FF6661B25F2C93A00689B77 /* ButtonInputReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonInputReceiver.h; sourceTree = "<group>"; };
@@ -1836,6 +1843,8 @@
 				4F909D1C28A0C3D2009349A2 /* ModCaptureDeleteButton.swift */,
 				4F909D1D28A0C3D2009349A2 /* ModCaptureFieldEditor.swift */,
 				4F909D1E28A0C3D2009349A2 /* ModCaptureTextField.swift */,
+				4FF9A0022E00000000000003 /* MouseButtonCaptureTextField.swift */,
+				4FF9A0042E00000000000005 /* MouseButtonCaptureDeleteButton.swift */,
 			);
 			path = ModifierCaptureField;
 			sourceTree = "<group>";
@@ -2629,6 +2638,8 @@
 			children = (
 				4FF6661625F2C93A00689B77 /* Modifiers.h */,
 				4FF6661725F2C93A00689B77 /* Modifiers.m */,
+				4FF9A0002E00000000000000 /* MouseModifiers.h */,
+				4FF9A0002E00000000000001 /* MouseModifiers.m */,
 				4FD9820F292AB02D00645FE3 /* ReactiveModifiers.swift */,
 			);
 			path = Modifiers;
@@ -3556,6 +3567,8 @@
 				4FC8A7D528ABDEFE007DB982 /* MFClipView.swift in Sources */,
 				4F909D2628A0C3D2009349A2 /* ViewController.m in Sources */,
 				4F909D3D28A0C3D2009349A2 /* ModCaptureTextField.swift in Sources */,
+				4FF9A0032E00000000000003 /* MouseButtonCaptureTextField.swift in Sources */,
+				4FF9A0052E00000000000005 /* MouseButtonCaptureDeleteButton.swift in Sources */,
 				4FEBE6622E456DA2005FF70E /* CAAnimationCurveUtility.m in Sources */,
 				4F9E78BF26855BCF002C2309 /* Concurrency.swift in Sources */,
 				4F92A708260F4BF000529D1F /* RemapTableView.m in Sources */,
@@ -3713,6 +3726,7 @@
 				4FAA3DAD2C55E94600CBA413 /* IBUtility.m in Sources */,
 				4FF6655125F2C7B000689B77 /* NSDictionary+Additions.m in Sources */,
 				4FF6668525F2C93A00689B77 /* Modifiers.m in Sources */,
+				4FF9A0012E00000000000001 /* MouseModifiers.m in Sources */,
 				4FD860CC266EF55A004F76C8 /* ScrollConfig.swift in Sources */,
 				4FE1A1B92C56A50100CE3347 /* Logging.m in Sources */,
 				4FDB5F4B2D4F85A900164F97 /* NSCharacterSet+Additions.m in Sources */,
@@ -4042,7 +4056,7 @@
 					"$(PROJECT_DIR)/Frameworks/**",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15.0;
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nuebling.mac-mouse-fix";
@@ -4085,7 +4099,7 @@
 					"$(PROJECT_DIR)/Frameworks/**",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15.0;
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.1.1;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nuebling.mac-mouse-fix";
 				PRODUCT_NAME = "$(TARGET_NAME)";

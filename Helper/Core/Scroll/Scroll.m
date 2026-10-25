@@ -11,6 +11,7 @@
 #import "DeviceManager.h"
 #import "TouchSimulator.h"
 #import "ScrollModifiers.h"
+#import "Modifiers.h"
 #import "Config.h"
 #import "ScrollUtility.h"
 #import "VectorUtility.h"
@@ -57,6 +58,9 @@ static TouchAnimator *_animator;
 #pragma mark - Variables - dynamic
 
 static MFScrollModificationResult _modifications;
+/// Modifier generation the cached `_modifications` was computed for. When the user presses/releases a
+/// mouse modifier the cached state must be refreshed even if the tick isn't the first consecutive one.
+static uint64_t _modificationsGeneration = 0;
 static ScrollConfig *_scrollConfig;
 static MFScrollAnimationCurveParameters *_animationParams;
 static ScrollAnalysisResult _lastScrollAnalysisResult;
@@ -303,7 +307,20 @@ static void heavyProcessing(CGEventRef event, int64_t scrollDeltaAxis1, int64_t 
     /// Update stuff
     ///     on the first scrollTick
     
-    if (firstConsecutive) {
+    /// Also treat a modifier change as the start of a new consecutive sequence. `ScrollAnalyzer` keys its
+    /// "first tick" logic off direction changes, and the horizontal modifier flips the axis, so without
+    /// this the analyzer would keep vertical momentum across the transition.
+    if (_modificationsGeneration != Modifiers.modifierGeneration) {
+        allowNestedReadOrWrite() [ScrollAnalyzer resetState];
+    }
+    
+    /// Refresh the modification state when the modifiers changed since the last tick.
+    /// Without this, a mouse modifier pressed mid-swipe would keep the previous (vertical) axis until
+    /// the swipe times out, which is what made "hold right button, scroll down then up" sometimes
+    /// fall back to vertical scrolling.
+    BOOL modifiersDidChange = (_modificationsGeneration != Modifiers.modifierGeneration);
+    
+    if (firstConsecutive || modifiersDidChange) {
         /// Checking which app is under the mouse pointer and the other stuff we do here is really slow, so we only do it when necessary
         
         /// Disable suspension
@@ -353,6 +370,7 @@ static void heavyProcessing(CGEventRef event, int64_t scrollDeltaAxis1, int64_t 
         
         /// Update modfications
         MFScrollModificationResult newMods = [ScrollModifiers currentModificationsWithEvent:event];
+        _modificationsGeneration = Modifiers.modifierGeneration;
         if (![ScrollModifiers scrollModsAreEqual:newMods other:_modifications]) {
             allowNestedReadOrWrite() [Scroll resetState];
             _modifications = newMods;

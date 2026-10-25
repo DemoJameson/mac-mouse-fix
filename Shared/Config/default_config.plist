@@ -15,6 +15,17 @@
 			<key>zoom</key>
 			<integer>1048576</integer>
 		</dict>
+		<key>buttonModifiers</key>
+		<dict>
+			<key>horizontal</key>
+			<integer>2</integer>
+			<key>precise</key>
+			<integer>0</integer>
+			<key>swift</key>
+			<integer>0</integer>
+			<key>zoom</key>
+			<integer>0</integer>
+		</dict>
 		<key>reverseDirection</key>
 		<true/>
 		<key>trackpadSimulation</key>
@@ -79,7 +90,7 @@
 	<key>Constants</key>
 	<dict>
 		<key>configVersion</key>
-		<integer>24</integer>
+		<integer>25</integer>
 		<key>defaultRemaps</key>
 		<dict>
 			<key>threeButtons</key>

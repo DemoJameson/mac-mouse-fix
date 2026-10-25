@@ -11768,6 +11768,24 @@
         }
       }
     },
+    "mouse-modifier-conflict-toast" : {
+      "comment" : "Shown when a mouse button that is already used by an action on the Buttons tab (Click, Hold, Click and Drag, or Click and Scroll) is assigned as a mouse modifier on the Scrolling tab. While the button is used as a mouse modifier, its Buttons-tab actions do not fire.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This button is also used for an action on the Buttons tab. While you use it as a mouse modifier, that action will not fire."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "该按键已在「按键」页绑定了动作。把它用作鼠标修饰键时，该动作将不会触发。"
+          }
+        }
+      }
+    },
     "natural-scrolling-hint" : {
       "comment" : "",
       "extractionState" : "manual",
@@ -18142,6 +18160,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按三下並按住%@"
+          }
+        }
+      }
+    },
+    "trigger.substring.mouse-modifier.1" : {
+      "comment" : "Inserted into the Action Table trigger string. %@ is a mouse button name, e.g. 'Right Button'. Example: 'Right Button + Scroll'. Note: Like all trigger.substring.* strings, keep this lowercase in most languages.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ + "
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ + "
           }
         }
       }

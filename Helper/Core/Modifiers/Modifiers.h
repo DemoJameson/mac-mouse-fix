@@ -51,10 +51,17 @@ typedef enum {
 
 + (void)buttonModsChangedTo:(MF_SWIFT_UNBRIDGED(ButtonModifierState))newModifiers NS_REFINED_FOR_SWIFT;
 
+/// Mouse-button modifier state (0 = none). Published under `kMFModificationPreconditionKeyMouseButtons`.
++ (void)mouseModsChangedTo:(NSNumber *)button NS_REFINED_FOR_SWIFT;
+
 + (void)handleModificationHasBeenUsed;
 
 + (MFModifierPriority)kbModPriority;
 + (MFModifierPriority)btnModPriority;
+
+/// Bumped whenever the active modifier set changes. Lets hot paths (like the scroll tap) detect
+/// stale cached modification state without recomputing the modifiers on every event.
++ (uint64_t)modifierGeneration;
 
 //+ (void)handleModificationHasBeenUsedWithDevice:(Device *_Nullable)device;
 //+ (void)handleModificationHasBeenUsedWithDevice:(Device *_Nullable)device activeModifiers:(NSDictionary *)activeModifiers;

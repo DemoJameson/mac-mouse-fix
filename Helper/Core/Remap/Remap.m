@@ -148,6 +148,12 @@ static NSDictionary *_remaps;
             NSEventModifierFlags precise = [(id)config(@"Scroll.modifiers.precise") unsignedIntegerValue];
             /// ^ Might be faster to only get Scroll.modifiers once and then query that? Probably not significant
             
+            /// Mouse button mods from scroll screen
+            NSUInteger mouseHorizontal = [(id)config(@"Scroll.buttonModifiers.horizontal") unsignedIntegerValue];
+            NSUInteger mouseZoom = [(id)config(@"Scroll.buttonModifiers.zoom") unsignedIntegerValue];
+            NSUInteger mouseSwift = [(id)config(@"Scroll.buttonModifiers.swift") unsignedIntegerValue];
+            NSUInteger mousePrecise = [(id)config(@"Scroll.buttonModifiers.precise") unsignedIntegerValue];
+            
             if (horizontal) {
                 NSDictionary *precondition = @{
                     kMFModificationPreconditionKeyKeyboard: @(horizontal)
@@ -184,6 +190,53 @@ static NSDictionary *_remaps;
             if (precise) {
                 NSDictionary *precondition = @{
                     kMFModificationPreconditionKeyKeyboard: @(precise)
+                };
+                NSDictionary *effect = @{
+                    kMFTriggerScroll: @{
+                        kMFModifiedScrollDictKeyInputModificationType: kMFModifiedScrollInputModificationTypePrecisionScroll
+                    }
+                };
+                [remapsDict setObject:effect forKey:precondition];
+            }
+            
+            /// Mouse modifiers. These override the keyboard modifiers – `RemapSwizzler` drops keyboard
+            /// preconditions whenever a mouse-button precondition is also active.
+            if (mouseHorizontal) {
+                NSDictionary *precondition = @{
+                    kMFModificationPreconditionKeyMouseButtons: @(mouseHorizontal)
+                };
+                NSDictionary *effect = @{
+                    kMFTriggerScroll: @{
+                        kMFModifiedScrollDictKeyEffectModificationType: kMFModifiedScrollEffectModificationTypeHorizontalScroll
+                    }
+                };
+                [remapsDict setObject:effect forKey:precondition];
+            }
+            if (mouseZoom) {
+                NSDictionary *precondition = @{
+                    kMFModificationPreconditionKeyMouseButtons: @(mouseZoom)
+                };
+                NSDictionary *effect = @{
+                    kMFTriggerScroll: @{
+                        kMFModifiedScrollDictKeyEffectModificationType: kMFModifiedScrollEffectModificationTypeZoom
+                    }
+                };
+                [remapsDict setObject:effect forKey:precondition];
+            }
+            if (mouseSwift) {
+                NSDictionary *precondition = @{
+                    kMFModificationPreconditionKeyMouseButtons: @(mouseSwift)
+                };
+                NSDictionary *effect = @{
+                    kMFTriggerScroll: @{
+                        kMFModifiedScrollDictKeyInputModificationType: kMFModifiedScrollInputModificationTypeQuickScroll
+                    }
+                };
+                [remapsDict setObject:effect forKey:precondition];
+            }
+            if (mousePrecise) {
+                NSDictionary *precondition = @{
+                    kMFModificationPreconditionKeyMouseButtons: @(mousePrecise)
                 };
                 NSDictionary *effect = @{
                     kMFTriggerScroll: @{

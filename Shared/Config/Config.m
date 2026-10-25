@@ -586,6 +586,21 @@ static void _loadAndRepair(void) {
                     removeFromConfig(@"License.licenseReasonCache");
                     
                     currentVersion = 24;
+                } else if (currentVersion == 24) {
+                
+                    /// 24 -> 25
+                    ///     Add `Scroll.buttonModifiers` – the mouse-button equivalents of the keyboard modifiers on the Scrolling tab.
+                    ///     Defaults to horizontal scroll = right mouse button. Existing configs get the same defaults.
+                    ///     (Would be nicer to hardcode the defaults instead of copying them from `defaultConfig`, but the values are trivial and stable.)
+                    
+                    log(Info, "Upgrading configVersion from 24 to 25...");
+                    
+                    NSObject *buttonMods = [defaultConfig objectForCoolKeyPath:@"Scroll.buttonModifiers"];
+                    if (buttonMods) {
+                        setConfig(@"Scroll.buttonModifiers", buttonMods);
+                    }
+                    
+                    currentVersion = 25;
                 }
                 /// [Oct 2026] added `License.licenseStateCacheHash_AgainstLicenseKey` and `License.licenseStateCacheHash_AgainstDeviceUID` and removed `License.licenseStateCacheHash`
                 ///     but it doesn't need migration here or a new configVersion

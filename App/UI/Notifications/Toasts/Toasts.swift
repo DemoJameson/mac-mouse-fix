@@ -87,7 +87,21 @@ import Foundation
             },
         ]
     ]
-    static let simpleToastMap_Scrolling: [[String: Any]] = []
+    static let simpleToastMap_Scrolling: [[String: Any]] = [
+        [
+            "key": "k-mouse-modifier-conflict-toast",
+            "block": {
+                let messageRaw = MFLocalizedString(
+                    "mouse-modifier-conflict-toast",
+                    comment: "Shown when a mouse button that is already used by an action on the Buttons tab (Click, Hold, Click and Drag, or Click and Scroll) is assigned as a mouse modifier on the Scrolling tab. While the button is used as a mouse modifier, its Buttons-tab actions do not fire."
+                )
+                let message = MarkdownParser.attributedString(withCoolMarkdown: messageRaw, fillOutBase: false)!
+                mfrun(CFRunLoopGetMain()) {
+                    ToastController.attachNotification(withMessage: message, forDuration: kMFToastDurationAutomatic)
+                }
+            },
+        ]
+    ]
     static let simpleToastMap_About: [[String: Any]] = []
     static let simpleToastMap_LicenseSheet: [[String: Any]] = []
     

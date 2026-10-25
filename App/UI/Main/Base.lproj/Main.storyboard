@@ -1648,6 +1648,275 @@ your mouse. (**Logitech M720 Triathlon**)&gt;</string>
                                             <constraint firstItem="Vaa-uM-Yko" firstAttribute="leading" secondItem="moZ-WP-cPc" secondAttribute="leading" id="zxM-5G-3LQ"/>
                                         </constraints>
                                     </customView>
+                                    <customView horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Cn-vw1" userLabel="Mouse Center">
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="150"/>
+                                        <subviews>
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Lb-001">
+                                                <rect key="frame" x="-2" y="130" width="120" height="17"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Mouse Modifiers:" id="mMG-Lb-c01">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    <attributedString key="userComments">
+                                                        <fragment content="Scrolling &gt; Mouse Modifiers Label"/>
+                                                    </attributedString>
+                                                </textFieldCell>
+                                            </textField>
+                                            <button translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Rs-001" userLabel="Restore Defaults Mouse button">
+                                                <rect key="frame" x="335" y="130" width="15" height="15"/>
+                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="arrow.uturn.backward.circle.fill" catalog="system" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="mMG-Rs-c01">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <accessibility identifier="axScrollingRestoreDefaultMouseModifiersButton"/>
+                                            </button>
+                                            <gridView horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" xPlacement="none" yPlacement="none" rowAlignment="none" rowSpacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Gd-001">
+                                                <rect key="frame" x="59" y="0.0" width="232" height="70"/>
+                                                <rows>
+                                                    <gridRow id="mMG-Rw-001"/>
+                                                    <gridRow id="mMG-Rw-002"/>
+                                                </rows>
+                                                <columns>
+                                                    <gridColumn id="mMG-Cl-001"/>
+                                                    <gridColumn id="mMG-Cl-002"/>
+                                                </columns>
+                                                <gridCells>
+                                                    <gridCell row="mMG-Rw-001" column="mMG-Cl-001" id="mMG-Ce-001">
+                                                        <customView key="contentView" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Cv-001" userLabel="Mod Capture Layout">
+                                                            <rect key="frame" x="0.0" y="40" width="113" height="30"/>
+                                                            <subviews>
+                                                                <textField focusRingType="none" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Tl-001">
+                                                                    <rect key="frame" x="7" y="16" width="100" height="14"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Scroll Horizontally" id="mMG-Tc-001">
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                        <attributedString key="userComments">
+                                                                            <fragment content="Scrolling &gt; Mouse Modifiers &gt; Scroll Horizontally Label"/>
+                                                                        </attributedString>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Tf-001" customClass="MouseButtonCaptureTextField" customModule="Mac_Mouse_Fix" customModuleProvider="target">
+                                                                    <rect key="frame" x="19" y="5" width="75" height="5"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="75" id="mMGx-b7R-NV-XE1"/>
+                                                                    </constraints>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="mMGx-NYE-x1-Sfd">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Db-001" customClass="MouseButtonCaptureDeleteButton" customModule="Mac_Mouse_Fix" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
+                                                                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="xmark.circle.fill" catalog="system" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="mMGx-J1k-ON-bhd">
+                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="15" id="mMGx-L74-tb-pwa"/>
+                                                                        <constraint firstAttribute="height" constant="9" id="mMGx-YbZ-a5-I5s"/>
+                                                                    </constraints>
+                                                                    <connections>
+                                                                        <outlet property="parentTextField" destination="mMG-Tf-001" id="mMGx-NcM-dA-5K9"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="mMG-Db-001" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mMG-Cv-001" secondAttribute="leading" id="mMGx-AQk-OX-k4Q"/>
+                                                                <constraint firstItem="mMG-Tf-001" firstAttribute="centerX" secondItem="mMG-Cv-001" secondAttribute="centerX" id="mMGx-EIi-1S-JGX"/>
+                                                                <constraint firstItem="mMG-Tl-001" firstAttribute="centerX" secondItem="mMG-Cv-001" secondAttribute="centerX" id="mMGx-GgT-Ue-MLf"/>
+                                                                <constraint firstItem="mMG-Tl-001" firstAttribute="leading" secondItem="mMG-Cv-001" secondAttribute="leading" priority="999" constant="5" id="mMGx-Ke5-He-6eV"/>
+                                                                <constraint firstItem="mMG-Tf-001" firstAttribute="top" secondItem="mMG-Tl-001" secondAttribute="bottom" constant="6" id="mMGx-MBO-TV-kcg"/>
+                                                                <constraint firstItem="mMG-Tl-001" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mMG-Cv-001" secondAttribute="leading" constant="5" id="mMGx-WDV-OW-yQc"/>
+                                                                <constraint firstAttribute="bottom" secondItem="mMG-Tf-001" secondAttribute="bottom" constant="5" id="mMGx-bSg-Ew-OD8"/>
+                                                                <constraint firstItem="mMG-Tl-001" firstAttribute="top" secondItem="mMG-Cv-001" secondAttribute="top" id="mMGx-nRY-ez-2RA"/>
+                                                                <constraint firstItem="mMG-Db-001" firstAttribute="trailing" secondItem="mMG-Tf-001" secondAttribute="leading" constant="-4" id="mMGx-nZp-2g-rzn"/>
+                                                                <constraint firstItem="mMG-Db-001" firstAttribute="centerY" secondItem="mMG-Tf-001" secondAttribute="centerY" id="mMGx-uBp-JW-4Hs"/>
+                                                            </constraints>
+                                                        </customView>
+                                                    </gridCell>
+                                                    <gridCell row="mMG-Rw-001" column="mMG-Cl-002" id="mMG-Ce-002">
+                                                        <customView key="contentView" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Cv-002" userLabel="Mod Capture Layout">
+                                                            <rect key="frame" x="119" y="40" width="113" height="30"/>
+                                                            <subviews>
+                                                                <textField focusRingType="none" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Tl-002">
+                                                                    <rect key="frame" x="15" y="16" width="83" height="14"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Zoom In or Out" id="mMG-Tc-002">
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                        <attributedString key="userComments">
+                                                                            <fragment content="Scrolling &gt; Mouse Modifiers &gt; Zoom In or Out Label"/>
+                                                                        </attributedString>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Tf-002" customClass="MouseButtonCaptureTextField" customModule="Mac_Mouse_Fix" customModuleProvider="target">
+                                                                    <rect key="frame" x="19" y="5" width="75" height="5"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="75" id="mMGx-GzZ-q9-Ejv"/>
+                                                                    </constraints>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="mMGx-ZrX-uf-wRe">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Db-002" customClass="MouseButtonCaptureDeleteButton" customModule="Mac_Mouse_Fix" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
+                                                                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="xmark.circle.fill" catalog="system" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="mMGx-TWb-x1-c1U">
+                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="9" id="mMGx-MUB-7x-WAm"/>
+                                                                        <constraint firstAttribute="width" constant="15" id="mMGx-aun-Mq-zJZ"/>
+                                                                    </constraints>
+                                                                    <connections>
+                                                                        <outlet property="parentTextField" destination="mMG-Tf-002" id="mMGx-T11-cM-STg"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstAttribute="bottom" secondItem="mMG-Tf-002" secondAttribute="bottom" constant="5" id="mMGx-Frz-yG-Tmw"/>
+                                                                <constraint firstItem="mMG-Tl-002" firstAttribute="leading" secondItem="mMG-Cv-002" secondAttribute="leading" priority="999" constant="5" id="mMGx-Gik-wu-xZ9"/>
+                                                                <constraint firstItem="mMG-Tf-002" firstAttribute="centerX" secondItem="mMG-Cv-002" secondAttribute="centerX" id="mMGx-H1F-AM-sKr"/>
+                                                                <constraint firstItem="mMG-Db-002" firstAttribute="trailing" secondItem="mMG-Tf-002" secondAttribute="leading" constant="-4" id="mMGx-N7S-lZ-BPN"/>
+                                                                <constraint firstItem="mMG-Tf-002" firstAttribute="top" secondItem="mMG-Tl-002" secondAttribute="bottom" constant="6" id="mMGx-PRV-D1-3FH"/>
+                                                                <constraint firstItem="mMG-Db-002" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mMG-Cv-002" secondAttribute="leading" id="mMGx-YnU-Qr-vWJ"/>
+                                                                <constraint firstItem="mMG-Tl-002" firstAttribute="centerX" secondItem="mMG-Cv-002" secondAttribute="centerX" id="mMGx-eB8-5T-90C"/>
+                                                                <constraint firstItem="mMG-Db-002" firstAttribute="centerY" secondItem="mMG-Tf-002" secondAttribute="centerY" id="mMGx-iC6-76-ogu"/>
+                                                                <constraint firstItem="mMG-Tl-002" firstAttribute="top" secondItem="mMG-Cv-002" secondAttribute="top" id="mMGx-u2C-BG-Koc"/>
+                                                                <constraint firstItem="mMG-Tl-002" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mMG-Cv-002" secondAttribute="leading" constant="5" id="mMGx-yfw-kl-g52"/>
+                                                            </constraints>
+                                                        </customView>
+                                                    </gridCell>
+                                                    <gridCell row="mMG-Rw-002" column="mMG-Cl-001" id="mMG-Ce-003">
+                                                        <customView key="contentView" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Cv-003" userLabel="Mod Capture Layout">
+                                                            <rect key="frame" x="0.0" y="0.0" width="113" height="30"/>
+                                                            <subviews>
+                                                                <textField focusRingType="none" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Tl-003">
+                                                                    <rect key="frame" x="20" y="16" width="73" height="14"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Scroll Swiftly" id="mMG-Tc-003">
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                        <attributedString key="userComments">
+                                                                            <fragment content="Scrolling &gt; Mouse Modifiers &gt; Scroll Swiftly Label"/>
+                                                                        </attributedString>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Tf-003" customClass="MouseButtonCaptureTextField" customModule="Mac_Mouse_Fix" customModuleProvider="target">
+                                                                    <rect key="frame" x="19" y="5" width="75" height="5"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="75" id="mMGx-Mio-SG-K5e"/>
+                                                                    </constraints>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="mMGx-G5R-uK-EmO">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Db-003" customClass="MouseButtonCaptureDeleteButton" customModule="Mac_Mouse_Fix" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
+                                                                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="xmark.circle.fill" catalog="system" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="mMGx-lem-6u-EIQ">
+                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="15" id="mMGx-P8R-kp-5Sh"/>
+                                                                        <constraint firstAttribute="height" constant="9" id="mMGx-Vo9-Dz-DSa"/>
+                                                                    </constraints>
+                                                                    <connections>
+                                                                        <outlet property="parentTextField" destination="mMG-Tf-003" id="mMGx-NPW-59-ahG"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="mMG-Db-003" firstAttribute="trailing" secondItem="mMG-Tf-003" secondAttribute="leading" constant="-4" id="mMGx-Ns0-Ax-W3s"/>
+                                                                <constraint firstItem="mMG-Tl-003" firstAttribute="centerX" secondItem="mMG-Cv-003" secondAttribute="centerX" id="mMGx-PJ6-aX-TKm"/>
+                                                                <constraint firstItem="mMG-Tf-003" firstAttribute="centerX" secondItem="mMG-Cv-003" secondAttribute="centerX" id="mMGx-RF5-z7-C8q"/>
+                                                                <constraint firstItem="mMG-Tl-003" firstAttribute="top" secondItem="mMG-Cv-003" secondAttribute="top" id="mMGx-S1C-Fi-C3v"/>
+                                                                <constraint firstAttribute="bottom" secondItem="mMG-Tf-003" secondAttribute="bottom" constant="5" id="mMGx-SXV-er-Y0q"/>
+                                                                <constraint firstItem="mMG-Tl-003" firstAttribute="leading" secondItem="mMG-Cv-003" secondAttribute="leading" priority="999" constant="5" id="mMGx-UqL-dN-Yno"/>
+                                                                <constraint firstItem="mMG-Tl-003" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mMG-Cv-003" secondAttribute="leading" constant="5" id="mMGx-e0f-gq-KC7"/>
+                                                                <constraint firstItem="mMG-Tf-003" firstAttribute="top" secondItem="mMG-Tl-003" secondAttribute="bottom" constant="6" id="mMGx-euk-IU-0fM"/>
+                                                                <constraint firstItem="mMG-Db-003" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mMG-Cv-003" secondAttribute="leading" id="mMGx-pai-PB-IoL"/>
+                                                                <constraint firstItem="mMG-Db-003" firstAttribute="centerY" secondItem="mMG-Tf-003" secondAttribute="centerY" id="mMGx-sLw-pD-i3h"/>
+                                                            </constraints>
+                                                        </customView>
+                                                    </gridCell>
+                                                    <gridCell row="mMG-Rw-002" column="mMG-Cl-002" id="mMG-Ce-004">
+                                                        <customView key="contentView" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Cv-004" userLabel="Mod Capture Layout">
+                                                            <rect key="frame" x="119" y="0.0" width="113" height="30"/>
+                                                            <subviews>
+                                                                <textField focusRingType="none" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Tl-004">
+                                                                    <rect key="frame" x="14" y="16" width="85" height="14"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Scroll Precisely" id="mMG-Tc-004">
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                        <attributedString key="userComments">
+                                                                            <fragment content="Scrolling &gt; Mouse Modifiers &gt; Scroll Precisely Label"/>
+                                                                        </attributedString>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Tf-004" customClass="MouseButtonCaptureTextField" customModule="Mac_Mouse_Fix" customModuleProvider="target">
+                                                                    <rect key="frame" x="19" y="5" width="75" height="5"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="75" id="mMGx-5Wt-UR-yRQ"/>
+                                                                    </constraints>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="mMGx-TWz-yF-U6y">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="mMG-Db-004" customClass="MouseButtonCaptureDeleteButton" customModule="Mac_Mouse_Fix" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
+                                                                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="xmark.circle.fill" catalog="system" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="mMGx-8Xu-e9-OwA">
+                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="9" id="mMGx-Gi3-5j-KxL"/>
+                                                                        <constraint firstAttribute="width" constant="15" id="mMGx-zM8-6y-HZ8"/>
+                                                                    </constraints>
+                                                                    <connections>
+                                                                        <outlet property="parentTextField" destination="mMG-Tf-004" id="mMGx-Cow-Fi-vXg"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="mMG-Tl-004" firstAttribute="top" secondItem="mMG-Cv-004" secondAttribute="top" id="mMGx-581-5L-hAi"/>
+                                                                <constraint firstItem="mMG-Tf-004" firstAttribute="top" secondItem="mMG-Tl-004" secondAttribute="bottom" constant="6" id="mMGx-Cxx-VK-u8c"/>
+                                                                <constraint firstItem="mMG-Tf-004" firstAttribute="centerX" secondItem="mMG-Cv-004" secondAttribute="centerX" id="mMGx-Qva-PW-Gbu"/>
+                                                                <constraint firstItem="mMG-Db-004" firstAttribute="centerY" secondItem="mMG-Tf-004" secondAttribute="centerY" id="mMGx-TqV-KX-lT2"/>
+                                                                <constraint firstItem="mMG-Db-004" firstAttribute="trailing" secondItem="mMG-Tf-004" secondAttribute="leading" constant="-4" id="mMGx-dHp-fj-cCd"/>
+                                                                <constraint firstItem="mMG-Tl-004" firstAttribute="leading" secondItem="mMG-Cv-004" secondAttribute="leading" priority="999" constant="5" id="mMGx-hGq-z9-uu0"/>
+                                                                <constraint firstItem="mMG-Tl-004" firstAttribute="centerX" secondItem="mMG-Cv-004" secondAttribute="centerX" id="mMGx-kJ1-Sl-gAQ"/>
+                                                                <constraint firstAttribute="bottom" secondItem="mMG-Tf-004" secondAttribute="bottom" constant="5" id="mMGx-lMC-xd-fNq"/>
+                                                                <constraint firstItem="mMG-Tl-004" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mMG-Cv-004" secondAttribute="leading" constant="5" id="mMGx-rtk-LZ-TbL"/>
+                                                                <constraint firstItem="mMG-Db-004" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mMG-Cv-004" secondAttribute="leading" id="mMGx-seC-li-h1F"/>
+                                                            </constraints>
+                                                        </customView>
+                                                    </gridCell>
+                                                </gridCells>
+                                            </gridView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="mMG-Gd-001" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mMG-Cn-vw1" secondAttribute="leading" id="mMG-Gl-001"/>
+                                            <constraint firstItem="mMG-Gd-001" firstAttribute="centerX" secondItem="mMG-Cn-vw1" secondAttribute="centerX" id="mMG-Gx-001"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mMG-Gd-001" secondAttribute="trailing" id="mMG-Gr-001"/>
+                                            <constraint firstItem="mMG-Lb-001" firstAttribute="top" secondItem="mMG-Cn-vw1" secondAttribute="top" id="mMG-Lt-001"/>
+                                            <constraint firstItem="mMG-Lb-001" firstAttribute="leading" secondItem="mMG-Cn-vw1" secondAttribute="leading" id="mMG-Ll-001"/>
+                                            <constraint firstAttribute="trailing" secondItem="mMG-Rs-001" secondAttribute="trailing" id="mMG-Rs-r01"/>
+                                            <constraint firstItem="mMG-Rs-001" firstAttribute="firstBaseline" secondItem="mMG-Lb-001" secondAttribute="firstBaseline" id="mMG-Rs-b01"/>
+                                            <constraint firstItem="mMG-Rs-001" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mMG-Lb-001" secondAttribute="trailing" constant="10" id="mMG-Rs-l01"/>
+                                            <constraint firstItem="mMG-Gd-001" firstAttribute="top" secondItem="mMG-Lb-001" secondAttribute="bottom" constant="16" id="mMG-Gt-001"/>
+                                            <constraint firstAttribute="bottom" secondItem="mMG-Gd-001" secondAttribute="bottom" id="mMG-Gb-001"/>
+                                        </constraints>
+                                    </customView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="ljz-rp-t9J" firstAttribute="width" relation="greaterThanOrEqual" secondItem="Yn5-ch-Oxi" secondAttribute="width" id="sEf-4q-f8E"/>
@@ -1662,8 +1931,10 @@ your mouse. (**Logitech M720 Triathlon**)&gt;</string>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
+                                    <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
@@ -1690,6 +1961,11 @@ your mouse. (**Logitech M720 Triathlon**)&gt;</string>
                     <connections>
                         <outlet property="horizontalModField" destination="PpE-2r-BrM" id="sxE-uX-0zf"/>
                         <outlet property="masterStack" destination="N4F-RB-d7a" id="l0H-83-1J7"/>
+                        <outlet property="mouseHorizontalModField" destination="mMG-Tf-001" id="mMG-Ot-001"/>
+                        <outlet property="restoreDefaultMouseModsButton" destination="mMG-Rs-001" id="mMG-Ot-rs1"/>
+                        <outlet property="mousePreciseModField" destination="mMG-Tf-004" id="mMG-Ot-004"/>
+                        <outlet property="mouseSwiftModField" destination="mMG-Tf-003" id="mMG-Ot-003"/>
+                        <outlet property="mouseZoomModField" destination="mMG-Tf-002" id="mMG-Ot-002"/>
                         <outlet property="preciseHint" destination="Yn5-ch-Oxi" id="qNm-Cv-Jsf"/>
                         <outlet property="preciseModField" destination="gqo-T2-Nmz" id="Rts-Lf-EyR"/>
                         <outlet property="preciseSection" destination="WGO-Zc-NYH" id="3ee-ik-5UL"/>

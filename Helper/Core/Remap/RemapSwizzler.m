@@ -147,9 +147,13 @@ static NSDictionary *_Nullable subsetSwizzler(NSDictionary *remaps, NSDictionary
         NSArray *buttons = precond[kMFModificationPreconditionKeyButtons];
         int64_t buttonSubsequenceLength = buttons.count;
         
+        /// Mouse-button modifiers count as 2 so they sort after any single keyboard flag. Combined with
+        /// the keyboard-precond filtering below this makes mouse modifiers win over keyboard modifiers.
+        int64_t mouseModifierWeight = precond[kMFModificationPreconditionKeyMouseButtons] != nil ? 2 : 0;
+        
         [precondsAndSizes addObject:@{
             @"precond": precond,
-            @"size": @(flagsSubsetSize + buttonSubsequenceLength),
+            @"size": @(flagsSubsetSize + buttonSubsequenceLength + mouseModifierWeight),
         }];
     }
     
@@ -197,6 +201,22 @@ static NSDictionary *_Nullable subsetSwizzler(NSDictionary *remaps, NSDictionary
     }
     
     /// Filter out preconds that are subsets of other preconds - per trigger
+    
+    /// Mouse modifiers take priority over keyboard modifiers: if a mouse-button precondition is active
+    /// for scrolling, drop scroll preconditions that only involve keyboard modifiers.
+    BOOL hasMouseScrollPrecond = NO;
+    for (NSDictionary *precond in scrollPreconds) {
+        if (precond[kMFModificationPreconditionKeyMouseButtons] != nil) { hasMouseScrollPrecond = YES; break; }
+    }
+    if (hasMouseScrollPrecond) {
+        /// Keep only mouse-button preconditions. This also overrides Click-and-Scroll rows on the
+        /// Buttons tab, which is what we promise in the UI.
+        NSMutableArray *filtered = [NSMutableArray array];
+        for (NSDictionary *precond in scrollPreconds) {
+            if (precond[kMFModificationPreconditionKeyMouseButtons] != nil) [filtered addObject:precond];
+        }
+        scrollPreconds = filtered;
+    }
     
     NSArray *scrollPreconds2 = internalSubSetsFilteredOut(scrollPreconds);
     NSArray *dragPreconds2 = internalSubSetsFilteredOut(dragPreconds);
@@ -286,6 +306,13 @@ BOOL isSubMod(NSDictionary *modifiers, NSDictionary *potentialSubModifiers) {
     NSArray *subButtons = potentialSubModifiers[kMFModificationPreconditionKeyButtons];
     
     if (!isSubSequence(buttons, subButtons)) return NO;
+    
+    /// Mouse-button modifiers
+    
+    NSNumber *mouseButton = modifiers[kMFModificationPreconditionKeyMouseButtons];
+    NSNumber *subMouseButton = potentialSubModifiers[kMFModificationPreconditionKeyMouseButtons];
+    
+    if (subMouseButton != nil && ![subMouseButton isEqualToNumber:mouseButton ?: @(0)]) return NO;
     
     /// Is subSet!
     

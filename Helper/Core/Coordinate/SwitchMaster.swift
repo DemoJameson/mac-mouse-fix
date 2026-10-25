@@ -95,6 +95,7 @@ import ReactiveSwift
     
     /// Derived from: Remaps
     
+    var someMouseModModifiesScroll          = false
     var somekbModModifiesScroll             = false
     var somekbModModifiesPointing           = false
     var somekbModModifiesButtonOnSomeDevice = false /// & derives from: Attached Devices
@@ -190,6 +191,7 @@ import ReactiveSwift
         if false { toggleBtnModProcessing() } /// [Mar 2025] Why aren't we calling this?
         
         toggleScrollTap()
+        toggleMouseModTap()
         toggleButtonTap()
         togglePointingTap(modifications: nil)
         
@@ -230,6 +232,7 @@ import ReactiveSwift
             ///     TODO: call toggleBtnModProcessing() here and in all the other places where we're missing it.
             
             toggleScrollTap()
+            toggleMouseModTap()
             toggleButtonTap()
             togglePointingTap(modifications: nil)
             
@@ -275,6 +278,7 @@ import ReactiveSwift
             if false { toggleBtnModProcessing() } /// [Mar 2025] Why aren't we calling this?
             
             toggleScrollTap()
+            toggleMouseModTap()
             toggleButtonTap()
             togglePointingTap(modifications: nil)
             
@@ -315,6 +319,7 @@ import ReactiveSwift
         self.toggleBtnModProcessing()
         
         self.toggleScrollTap()
+        self.toggleMouseModTap()
         self.toggleButtonTap()
         self.togglePointingTap(modifications: nil)
         
@@ -340,6 +345,10 @@ import ReactiveSwift
         self.somekbModModifiesScroll = result.someKbModModifiesScroll
         self.someButtonModifiesPointing = result.someButtonModifiesPointing
         self.someButtonModifiesScroll = result.someButtonModifiesScroll
+        self.someMouseModModifiesScroll = result.someMouseModModifiesScroll
+        
+        /// Feed the tap with the buttons that are configured as scroll modifiers.
+        self.updateMouseModifierButtons()
         
         /// Call combined state updaters
         remapsOrAttachedDevicesChanged(remaps: remaps, devices: latestDevices)
@@ -365,6 +374,7 @@ import ReactiveSwift
         self.toggleBtnModProcessing()
         
         self.toggleScrollTap()
+        self.toggleMouseModTap()
         self.toggleButtonTap()
         self.togglePointingTap(modifications: nil /*self.latestModifications*/)
         
@@ -403,6 +413,7 @@ import ReactiveSwift
         self.toggleBtnModProcessing()
         
         self.toggleScrollTap()
+        self.toggleMouseModTap()
         
         toggleKillSwitchMenuItems()
         
@@ -430,6 +441,7 @@ import ReactiveSwift
         ///     Note: [Mar 2025] Why we aren't toggling btn/kbd mods here? -> I think because if we listened to mods conditionally based on presence of other mods, then only a specific order of activating the mods would work.
         
         self.toggleScrollTap()
+        self.toggleMouseModTap()
         self.toggleButtonTap()
         self.togglePointingTap(modifications: self.latestModifications)
         
@@ -549,6 +561,44 @@ import ReactiveSwift
         Modifiers.setButtonModifierPriority(priority)
     }
     
+    /// Push the currently configured mouse buttons (right/middle/4–32) into `MouseModifiers`
+    /// so its tap knows which buttons to swallow and report as modifiers.
+    private func updateMouseModifierButtons() {
+        
+        let buttons = NSMutableIndexSet()
+        for key in ["horizontal", "zoom", "swift", "precise"] {
+            let b = (config("Scroll.buttonModifiers.\(key)") as? NSNumber)?.uintValue ?? 0
+            if b >= UInt(kMFMouseButtonNumberRight.rawValue) {
+                buttons.add(Int(b))
+            }
+        }
+        MouseModifiers.setConfiguredButtons(buttons as IndexSet)
+    }
+    
+    /// Re-evaluate the input taps after the Scrolling tab stops recording a button. Recording suspends
+    /// `MouseModifiers` and `ButtonInputReceiver`, and neither is restored by modifier/remaps changes,
+    /// so re-run the togglers that own them.
+    @objc func refreshMouseModifierTap() {
+        assertRunLoop(IOThread.runLoop())
+        toggleMouseModTap()
+        toggleButtonTap()
+        toggleScrollTap()
+    }
+    
+    private func toggleMouseModTap() {
+        
+        if isLockedDown || !userIsActive || scrollKillSwitch {
+            MouseModifiers.stop()
+            return
+        }
+        
+        if someDeviceHasScroll && someMouseModModifiesScroll {
+            MouseModifiers.start()
+        } else {
+            MouseModifiers.stop()
+        }
+    }
+    
     private func toggleScrollTap() {
         
         if isLockedDown || !userIsActive || scrollKillSwitch {
@@ -556,7 +606,11 @@ import ReactiveSwift
             return
         }
         
-        if someDeviceHasScroll && (defaultModifiesScroll || currentModificationModifiesScroll) {
+        /// Keep receiving while a mouse modifier is physically held. Otherwise a momentary empty
+        /// modifier state would disable the tap mid-swipe and the tick would scroll vertically natively.
+        let mouseModifierIsHeld = MouseModifiers.heldButton().uintValue != 0
+        
+        if someDeviceHasScroll && (defaultModifiesScroll || currentModificationModifiesScroll || mouseModifierIsHeld) {
             Scroll.startReceiving()
         } else {
             Scroll.stopReceiving()
@@ -753,12 +807,27 @@ import ReactiveSwift
         return defaultSways
     }
     
-    fileprivate func modifierUsage_Point_Scroll(_ remaps: NSDictionary) -> (someKbModModifiesPointing: Bool, someKbModModifiesScroll: Bool, someButtonModifiesPointing: Bool, someButtonModifiesScroll: Bool) {
+    fileprivate func modifierUsage_Point_Scroll(_ remaps: NSDictionary) -> (someKbModModifiesPointing: Bool, someKbModModifiesScroll: Bool, someButtonModifiesPointing: Bool, someButtonModifiesScroll: Bool, someMouseModModifiesScroll: Bool) {
         
         var kbSwayPoint = false
         var kbSwayScroll = false
         var btnSwayPoint = false
         var btnSwayScroll = false
+        var mouseSwayScroll = false
+        
+        /// Mouse modifiers never apply in addMode (the addField only records button + keyboard mods),
+        /// so we can detect them independently of the addMode branch below.
+        if !Remap.addModeIsEnabled {
+            for (precond, modification) in remaps {
+                guard let precond = precond as? NSDictionary else { continue }
+                guard precond.object(forKey: kMFModificationPreconditionKeyMouseButtons) != nil else { continue }
+                guard let modification = modification as? NSDictionary else { continue }
+                if RemapsAnalyzer.modificationsModifyScroll(modification) {
+                    mouseSwayScroll = true
+                    break
+                }
+            }
+        }
         
         if Remap.addModeIsEnabled {
             
@@ -819,7 +888,11 @@ import ReactiveSwift
             }
         }
         
-        return (someKbModModifiesPointing: kbSwayPoint, someKbModModifiesScroll: kbSwayScroll, someButtonModifiesPointing: btnSwayPoint, someButtonModifiesScroll: btnSwayScroll)
+        return (someKbModModifiesPointing: kbSwayPoint,
+                someKbModModifiesScroll: kbSwayScroll,
+                someButtonModifiesPointing: btnSwayPoint,
+                someButtonModifiesScroll: btnSwayScroll,
+                someMouseModModifiesScroll: mouseSwayScroll)
     }
 }
 

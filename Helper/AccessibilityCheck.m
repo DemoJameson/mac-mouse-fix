@@ -18,6 +18,7 @@
 #import "Constants.h"
 #import "ModifiedDrag.h"
 #import "Modifiers.h"
+#import "MouseModifiers.h"
 #import "SharedUtility.h"
 #import "HelperServices.h"
 #import "PointerFreeze.h"
@@ -194,6 +195,7 @@
             //[Config load_Manual];
             //[ModifiedDrag load_Manual];
             [Modifiers load_Manual];
+            [MouseModifiers load_Manual];
             [ModifiedDrag load_Manual];
             [Config load_Manual];
 

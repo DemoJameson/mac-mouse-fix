@@ -18,6 +18,7 @@
 #import "CircularBuffer.h"
 #import "ScrollModifiers.h"
 #import "Modifiers.h"
+#import "MouseModifiers.h"
 #import "Remap.h"
 #import "ModifiedDrag.h"
 #import "Scroll.h"
